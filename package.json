@@ -1,13 +1,13 @@
 {
-  "name": "packrattle",
+  "name": "coffeenode-packrattle",
   "version": "3.0.1",
   "description": "GLL parser-combinator library",
   "keywords": [ "parser", "packrat", "gll", "coffee-script" ],
   "author": "Robey Pointer <robeypointer@gmail.com>",
-  "homepage": "https://github.com/robey/packrattle",
+  "homepage": "https://github.com/loveencounterflow/coffeenode-packrattle",
   "repository": {
     "type": "git",
-    "url": "git://github.com/robey/packrattle.git"
+    "url": "git://github.com/loveencounterflow/coffeenode-packrattle.git"
   },
   "licenses": [
     {

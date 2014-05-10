@@ -1,4 +1,3 @@
-![packrattle](docs/packrattle-small.png)
 
 [![Build Status](https://travis-ci.org/robey/packrattle.png?branch=master)](https://travis-ci.org/robey/packrattle)
 
