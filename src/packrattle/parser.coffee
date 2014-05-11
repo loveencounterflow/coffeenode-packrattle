@@ -115,11 +115,12 @@ class Parser
   # consume an entire text with this parser. convert failure into an exception.
   run: (text, options) ->
     rv = consume(@, text, options)
+    # console.log '©212', rv
     if not rv.ok
       e = new Error(rv.message)
       e.state = rv.state
       throw e
-    rv.match    
+    rv.match
 
   # ----- transformations and combinations:
 
@@ -147,6 +148,7 @@ class Parser
               else
                 cont(new Match(rv.state, result, rv.commit))
             catch e
+              console.log '\x1b[38;05;33m©314\x1b[38;05;124m\nOriginal Error:\n' + e.stack + '\n\x1b[0m'
               cont(new NoMatch(rv.state, e.toString(), rv.commit))
           else
             cont(new Match(rv.state, f, rv.commit))
@@ -164,7 +166,7 @@ class Parser
   describe: (message) ->
     @describer = -> message
     @onFail "Expected #{message}"
-    
+
   # ----- convenience methods for accessing the combinators
 
   then: (p) -> combiners.chain @, p, (a, b) -> [ a, b ]

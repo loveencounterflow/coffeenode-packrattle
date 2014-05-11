@@ -1,5 +1,6 @@
 WeakMap = require 'weakmap'
 parser = require './parser'
+TYPES = require 'coffeenode-types'
 
 #
 # helper functions used by the parsers & combiners -- not exported.
@@ -22,16 +23,14 @@ defer = (p) ->
       p.parse state, cont
 
 # turn strings, regexen, and arrays into parsers implicitly.
-implicit = (p) ->
+implicit = ( p ) ->
   parser = require './parser'
   combiners = require './combiners'
-
-  # wow, javascript's type system completely falls apart here.
-  if typeof p == "string" then return parser.string(p)
-  className = Object.prototype.toString.call(p)[1 ... -1].split(" ")[1]
-  if className == "RegExp" then return parser.regex(p)
-  if className == "Array" then return combiners.seq(p...)
-  p
+  return switch type = TYPES.type_of p
+    when 'text'     then parser.string  p
+    when 'jsregex'  then parser.regex   p
+    when 'list'     then combiners.seq  p...
+  return p
 
 # allow functions to be passed in, and resolved only at parse-time.
 resolve = (p) ->

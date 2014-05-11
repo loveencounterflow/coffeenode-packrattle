@@ -2,7 +2,12 @@
   "name": "coffeenode-packrattle",
   "version": "3.0.1",
   "description": "GLL parser-combinator library",
-  "keywords": [ "parser", "packrat", "gll", "coffee-script" ],
+  "keywords": [
+    "parser",
+    "packrat",
+    "gll",
+    "coffee-script"
+  ],
   "author": "Robey Pointer <robeypointer@gmail.com>",
   "homepage": "https://github.com/loveencounterflow/coffeenode-packrattle",
   "repository": {
@@ -15,12 +20,12 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
     }
   ],
-
   "scripts": {
     "test": "./node_modules/.bin/plz --color -v test"
   },
   "dependencies": {
-    "weakmap": "0.0.6"
+    "weakmap": "0.0.6",
+    "coffeenode-types": "^0.1.1"
   },
   "devDependencies": {
     "coffee-script": "~1.7.0",
