@@ -3,6 +3,8 @@ combiners = require './combiners'
 debug_graph = require './debug_graph'
 helpers = require './helpers'
 parser_state = require './parser_state'
+log = console.log
+TYPES = require 'coffeenode-types'
 
 DebugGraph = debug_graph.DebugGraph
 
@@ -114,15 +116,36 @@ class Parser
 
   # consume an entire text with this parser. convert failure into an exception.
   run: (text, options) ->
+    # log '©452 run'
+    # log '©452', ( name for name of @)
+    # text = @transform text
+    # text = transform text for transform in @transformers
     rv = consume(@, text, options)
-    # console.log '©212', rv
+    # log '©212', rv
     if not rv.ok
       e = new Error(rv.message)
       e.state = rv.state
       throw e
     rv.match
 
+  # transformers: []
+
   # ----- transformations and combinations:
+  transform: ( transformer ) ->
+    ### use like `p = p.transform ( text ) -> ...`; the function passed to `transform` will be called once
+    before parsing starts and is expected to return a new version of the source text. ###
+    newParser "transform",
+      wrap: @
+      matcher: (state, cont) =>
+        # combiners.alt @
+        log '©8372'
+        state[ 'internal' ][ 'text' ] = text = transformer state[ 'internal' ][ 'text' ]
+        state[ 'internal' ][ 'end'  ] = text.length
+        log state
+        @parse state, ( rv ) ->
+          return cont rv
+        #   cont(new NoMatch(rv.state, newMessage, rv.abort))
+        # return cont state.rv
 
   # transforms the error message of a parser
   onFail: (newMessage) ->
@@ -148,7 +171,7 @@ class Parser
               else
                 cont(new Match(rv.state, result, rv.commit))
             catch e
-              console.log '\x1b[38;05;33m©314\x1b[38;05;124m\nOriginal Error:\n' + e.stack + '\n\x1b[0m'
+              log '\x1b[38;05;33m©314\x1b[38;05;124m\nOriginal Error:\n' + e.stack + '\n\x1b[0m'
               cont(new NoMatch(rv.state, e.toString(), rv.commit))
           else
             cont(new Match(rv.state, f, rv.commit))

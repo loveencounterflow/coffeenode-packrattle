@@ -22,7 +22,7 @@ defer = (p) ->
       p = resolve(p)
       p.parse state, cont
 
-# turn strings, regexen, and arrays into parsers implicitly.
+# turn strings, regexen, arrays and functions into parsers implicitly.
 implicit = ( p ) ->
   parser = require './parser'
   combiners = require './combiners'
@@ -30,15 +30,15 @@ implicit = ( p ) ->
     when 'text'     then parser.string  p
     when 'jsregex'  then parser.regex   p
     when 'list'     then combiners.seq  p...
-  return p
+    # when 'function' then resolve        p
+    else                                p
 
 # allow functions to be passed in, and resolved only at parse-time.
-resolve = (p) ->
-  if not (typeof p == "function") then return implicit(p)
-  p = fromLazyCache(p)
-  p = implicit(p)
-  if not p? then throw new Error("Can't resolve parser")
-  p
+resolve = ( p ) ->
+  return implicit p unless ( TYPES.type_of p ) is 'function'
+  p = implicit fromLazyCache p
+  throw new Error "Can't resolve parser" unless p?
+  return p
 
 
 exports.defer = defer
