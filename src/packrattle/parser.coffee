@@ -116,12 +116,7 @@ class Parser
 
   # consume an entire text with this parser. convert failure into an exception.
   run: (text, options) ->
-    # log '©452 run'
-    # log '©452', ( name for name of @)
-    # text = @transform text
-    # text = transform text for transform in @transformers
     rv = consume(@, text, options)
-    # log '©212', rv
     if not rv.ok
       e = new Error(rv.message)
       e.state = rv.state
@@ -137,15 +132,12 @@ class Parser
     newParser "transform",
       wrap: @
       matcher: (state, cont) =>
-        # combiners.alt @
         log '©8372'
         state[ 'internal' ][ 'text' ] = text = transformer state[ 'internal' ][ 'text' ]
         state[ 'internal' ][ 'end'  ] = text.length
         log state
         @parse state, ( rv ) ->
           return cont rv
-        #   cont(new NoMatch(rv.state, newMessage, rv.abort))
-        # return cont state.rv
 
   # transforms the error message of a parser
   onFail: (newMessage) ->
