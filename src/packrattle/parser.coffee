@@ -132,10 +132,10 @@ class Parser
     newParser "transform",
       wrap: @
       matcher: (state, cont) =>
-        log '©8372'
+        # log '©8372'
         state[ 'internal' ][ 'text' ] = text = transformer state[ 'internal' ][ 'text' ]
         state[ 'internal' ][ 'end'  ] = text.length
-        log state
+        # log state
         @parse state, ( rv ) ->
           return cont rv
 
